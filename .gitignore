@@ -1,4 +1,6 @@
 node_modules/
+/shopping/shopping/settings.py
+/package-lock.json
 .expo/
 npm-debug.*
 *.jks
@@ -8,6 +10,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
+/.gitignore
 # macOS
 .DS_Store
