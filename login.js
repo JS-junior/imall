@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import styles from './styles.js';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View, TouchableOpacity, FlatList, TextInput, TouchableWithoutFeedback, ToastAndroid, Alert, StyleSheet, Dimensions, StatusBar, Keyboard } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, TextInput, TouchableWithoutFeedback, ToastAndroid, Alert, StyleSheet, Dimensions, StatusBar, Keyboard } from 'react-native';
+import { Input } from 'react-native-elements';
 import RNModal from 'react-native-modal';
 
 export default function Login({ navigation }){
@@ -97,8 +98,8 @@ placeholder='password'
 		<Text style={styles.signupHeading}> Sign up </Text>
 		</TouchableWithoutFeedback>
 		{"\n"}{"\n"}{"\n"}
-		<TouchableWithoutFeedback onPress={()=> setModal(true)}>
-		<Text style={styles.signupHeading}> Forgot password? </Text>
+	<TouchableWithoutFeedback onPress={()=> setModal(true)}>
+	<Text style={styles.signupHeading}> Forgot password? </Text>
 		</TouchableWithoutFeedback>
 
 		</Text>

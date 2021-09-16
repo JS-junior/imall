@@ -24,7 +24,7 @@ export default function Orders({ navigation }) {
   
   useLayoutEffect(()=>{
 		navigation.setOptions({
-		  title: "Paymall",
+		  title: "Orders",
 			headerStyle: { 
 				backgroundColor: '#FFF',
 			},

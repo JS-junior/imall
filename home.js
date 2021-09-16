@@ -52,14 +52,14 @@ export default function Home({ navigation }) {
 	
   return (
 <View style={{ flex: 1 }} >
+<ScrollView>
 <View>
-
-<View>
-<TouchableOpacity onPress={()=> navigation.navigate('Search') }>
+<TouchableOpacity onPress={()=> navigation.navigate('Search')}>
 <Input placeholder='search' value={query} onChangeText={(text)=> setQuery(text)}
 leftIcon={<FontAwesome name="search" size={24} color="black" />}/>
 </TouchableOpacity>
 </View>
+
 <Image style={styles.carouselImage}     
 source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
 
@@ -72,7 +72,7 @@ source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg'
 style={styles.productMoreTxt}> Recommended for you</Text>
 <View style={styles.homeBoxContainer}>
 <View style={styles.boxContainer}>
-<TouchableWithoutFeedback>
+<TouchableWithoutFeedback onPress={()=> navigation.navigate("Product")}>
 <Image style={styles.boxContainerImage} source={{ uri:'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
 </TouchableWithoutFeedback>
 <Text> T shirt $28</Text>
@@ -98,19 +98,19 @@ style={styles.productMoreTxt}> Recommended for you</Text>
 </View>
 </ScrollView>)}} />
 
-</View>
+</ScrollView>
 
 <View style={styles.bottomBar}>
-          <TouchableOpacity style={{ flex: 1 }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={ ()=>navigation.navigate("Home")}>
             <Icon name='home' size={30} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ flex: 1 }}>
-            <Icon name='cart-plus' size={30} />
+          <TouchableOpacity style={{ flex: 1 }} onPress={ ()=>navigation.navigate("Cart")}>
+            <Icon name='cart-plus' type="font-awesome" size={30} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ flex: 1 }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={ ()=>navigation.navigate("Orders")}>
             <Icon name='history' type='font-awesome' size={30} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ flex: 1, alignItems: 'center' }}>
+          <TouchableOpacity style={{ flex: 1, alignItems: 'center' }} onPress={ ()=>navigation.navigate("Settings")}>
             <Image
               style={{ width: 30, height: 30, borderRadius: 100 }}
               source={{
@@ -119,6 +119,7 @@ style={styles.productMoreTxt}> Recommended for you</Text>
             />
           </TouchableOpacity>
         </View>
+        
  </View>)
         
  }

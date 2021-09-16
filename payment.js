@@ -27,7 +27,7 @@ export default function Payment({ navigation }) {
   useLayoutEffect(()=>{
 		navigation.setOptions({
 			headerStyle: { 
-				backgroundColor: '#333',
+				backgroundColor: '#FFF',
 			},
 			title: 'Checkout',
 			headerTitleStyle: {
