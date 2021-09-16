@@ -294,5 +294,90 @@ settingsCard: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-        }
+        },
+  bottomBar: {
+    position: 'absolute',
+    left: 0,
+    right: 0, 
+    bottom: 0,
+    height: 50,
+    borderTopWidth: 1,
+    borderTopColor: '#dfe4ea',
+    backgroundColor: '#ffffff',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paymentContainer: {
+  display: 'flex',
+  flexDirection: "column",
+  justifyContent: 'center',
+},
+paymentInput: {
+width: '100%',
+height: 44,
+alignSelf: 'center',
+width: '90%',
+backgroundColor: "#f1f3f6",
+borderRadius: 8,
+paddingHorizontal: 10,
+display: 'flex',
+flexDirection: 'row',
+alignItems: "center",
+marginVertical: 10
+},
+  payBtn: {
+  marginVertical: 10,
+  paddingVertical: 12,
+  paddingHorizontal: 20,
+  borderRadius: 6,
+  width: "90%",
+  backgroundColor: 'black',
+  alignSelf: 'center',
+  justifyContent: 'center',
+  },
+  payBtnTxt: {
+  color: "#fff",
+  fontWeight: 'bold',
+  alignSelf: 'center',
+  fontSize: 20
+  },
+  
+forgotpassModal: {
+backgroundColor: "#FFF",
+paddingHorizontal: 10,
+paddingVertical: 14,
+borderRadius: 8,
+shadowColor: "#000",
+shadowOffset: { width: 0, height:2 },
+shadowOpacity: 0.25,
+shadowRadius: 3.85,
+elevation: 5,
+},
+normalInput: {
+		width: '100%',
+		height: 45,
+		backgroundColor: '#333',
+		marginTop: 10,
+		borderRadius: 6,
+		paddingHorizontal: 10,
+		fontSize: 16,
+		color: '#808e9b'
+	},
+
+
+forgotpassbtn: {
+backgroundColor: "black",
+paddingHorizontal: 10,
+paddingVertical: 14,
+borderRadius: 8,
+height: 'auto',
+width: '25%',
+shadowColor: "#000",
+shadowOffset: { width: 2, height:2 },
+shadowOpacity: 0.25,
+shadowRadius: 3.85,
+elevation: 2,
+marginLeft: 10
+}
 })

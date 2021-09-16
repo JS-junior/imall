@@ -77,7 +77,7 @@ uri:'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
 <View style={styles.subTotalContainer}>
 <Text style={{ fontWeight: 'bold' }}> total</Text>
 <Text> 1000</Text></View></View>
-<TouchableOpacity>
+<TouchableOpacity onPress={()=> navigation.navigate("Payment")}>
 <Text style={styles.checkoutButton}> Proceed to Checkout</Text>
 </TouchableOpacity>
 </ScrollView> 

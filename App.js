@@ -10,6 +10,7 @@ import Login from "./login.js";
 import Cart from './cart.js';
 import Search from './search.js';
 import Product from './product.js';
+import Payment from './payment.js'
 import Orders from './orders.js'
 import Settings from './settings.js'
 
@@ -25,6 +26,7 @@ export default function App() {
           <Stack.Screen name="Cart" component={Cart} />
           <Stack.Screen name="Product" component={Product} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Payment" component={Payment} />
           <Stack.Screen name="Orders" component={Orders} />
           <Stack.Screen name="Settings" component={Settings} />
           </Stack.Navigator>

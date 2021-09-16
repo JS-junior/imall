@@ -51,7 +51,9 @@ export default function Home({ navigation }) {
 	}, [navigation])
 	
   return (
-    <ScrollView>
+<View style={{ flex: 1 }} >
+<View>
+
 <View>
 <TouchableOpacity onPress={()=> navigation.navigate('Search') }>
 <Input placeholder='search' value={query} onChangeText={(text)=> setQuery(text)}
@@ -60,28 +62,29 @@ leftIcon={<FontAwesome name="search" size={24} color="black" />}/>
 </View>
 <Image style={styles.carouselImage}     
 source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
+
  <FlatList 
  data={items}
  renderItem={({val})=>{ 
  return(
- <View style={styles.homeContainer}>
+ <ScrollView style={styles.homeContainer}>
 <Text 
 style={styles.productMoreTxt}> Recommended for you</Text>
 <View style={styles.homeBoxContainer}>
 <View style={styles.boxContainer}>
-<TouchableWithoutFeedback onPress={()=> navigation.navigate('Product') }>
+<TouchableWithoutFeedback>
 <Image style={styles.boxContainerImage} source={{ uri:'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
 </TouchableWithoutFeedback>
 <Text> T shirt $28</Text>
 </View>
 <View style={styles.boxContainer}>
-<TouchableWithoutFeedback onPress={()=> navigation.navigate('Settings') }>
+<TouchableWithoutFeedback>
 <Image style={styles.boxContainerImage} source={{ uri:'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
 </TouchableWithoutFeedback>
 <Text> T shirt $28</Text>
 </View>
 <View style={styles.boxContainer}>
-<TouchableWithoutFeedback onPress={()=> navigation.navigate('Orders') }>
+<TouchableWithoutFeedback>
 <Image style={styles.boxContainerImage} source={{ uri:'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
 </TouchableWithoutFeedback>
 <Text> T shirt $28</Text>
@@ -93,8 +96,29 @@ style={styles.productMoreTxt}> Recommended for you</Text>
 <Text> T shirt $28</Text>
 </View>
 </View>
-</View>)}} />
- 
- </ScrollView>)
+</ScrollView>)}} />
+
+</View>
+
+<View style={styles.bottomBar}>
+          <TouchableOpacity style={{ flex: 1 }}>
+            <Icon name='home' size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flex: 1 }}>
+            <Icon name='cart-plus' size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flex: 1 }}>
+            <Icon name='history' type='font-awesome' size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{ flex: 1, alignItems: 'center' }}>
+            <Image
+              style={{ width: 30, height: 30, borderRadius: 100 }}
+              source={{
+                uri: 'https://avatars1.githubusercontent.com/u/43666833?v=4',
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+ </View>)
         
  }
