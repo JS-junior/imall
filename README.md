@@ -1,4 +1,4 @@
-#iMall
+# iMall
 
 ## An E-commerce app for Android and iOS
 
