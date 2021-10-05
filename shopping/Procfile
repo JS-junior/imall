@@ -1,0 +1,1 @@
+web: shopping.wsgi --log-file -
