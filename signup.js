@@ -39,7 +39,7 @@ const signup = ()=>{
   .then((data) =>{ 
   ToastAndroid.show(data.message, 2000)
   if  (data.message === "signup successful"){
-  ToastAndroid.show(data.message,2000)
+  ToastAndroid.show(data.message)
   navigation.navigate("Login")
   }else if(data.message === "email already exists"){ 
   ToastAndroid.show(data.message, 2000)
