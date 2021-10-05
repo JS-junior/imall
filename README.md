@@ -15,6 +15,12 @@
 ### See this App in action
 https://github.com/JS-junior/ecommerce/releases/tag/App
 
+## Expo snack
+https://snack.expo.dev/@little_champ/ecommerce
+
+
+
+
 
 ## Features
 
