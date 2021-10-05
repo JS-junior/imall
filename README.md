@@ -1,8 +1,8 @@
-#iMall
+# iMall [![cart-image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovkPUMpAaY7OpCykP09f0m3DlaM6a6oTwM7qExiGUrquX8yexdEH2wcnz&s=10)](https://amazon.com/)
 
-## An E-commerce app for Android and iOS
+## An E-commerce app for Android [![android](https://assets.stickpng.com/images/580b57fbd9996e24bc43bdf2.png)](https://www.android.com/) and iOS [![ios](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTETpab70hva_9zon_lvGBuJqJnaiGe7-kt69IHfDI2q_X5jqbtqTTJLCA&s=10)](https://www.apple.com/)
 
-## Made with React Native and Django
+## Made with React Native [![react-native](https://camo.githubusercontent.com/5c92eeb467fd5d2b1ef1c560e3c3c2f758a8d4e03a8136bda7b41a2d3d4a1b59/68747470733a2f2f72656163746e61746976652e6465762f696d672f6865616465725f6c6f676f2e737667)](https://reactnative.dev/) and Django [![django](https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-original.svg)](https://www.djangoproject.com/)
 
 ## Tech Stack
 
@@ -13,6 +13,9 @@
 
 ## Demo
 ### See this App in action
+## [![android](https://assets.stickpng.com/images/580b57fbd9996e24bc43bdf2.png)](https://www.android.com/)  Android
+https://github.com/JS-junior/ecommerce/releases/tag/App
+## [![ios](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTETpab70hva_9zon_lvGBuJqJnaiGe7-kt69IHfDI2q_X5jqbtqTTJLCA&s=10)](https://www.apple.com/) iOS
 https://github.com/JS-junior/ecommerce/releases/tag/App
 
 ## Expo snack

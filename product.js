@@ -31,7 +31,7 @@ const [{ base_url }, dispatch] = useContext(state)
 
 useLayoutEffect(()=>{
 	navigation.setOptions({
-	 title: "Paymall",
+	title: "Paymall",
 	 headerStyle: { 
 	backgroundColor: '#FFF',
 			},
