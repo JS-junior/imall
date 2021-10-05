@@ -12,8 +12,8 @@
 
 
 ## Demo
-### See this App in action
-https://github.com/JS-junior/ecommerce/releases/tag/App
+### Android apk
+https://github.com/JS-junior/ecommerce/releases/download/App/my-ecommerce-app.apk
 
 ## Expo snack
 https://snack.expo.dev/@little_champ/ecommerce
