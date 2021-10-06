@@ -13,7 +13,7 @@
 
 ## Demo
 ### Android apk
-https://github.com/JS-junior/ecommerce/releases/download/App/my-ecommerce-app.apk
+https://github.com/JS-junior/ecommerce/releases/download/App/imall.apk
 
 ## Expo snack
 https://snack.expo.dev/@little_champ/ecommerce
