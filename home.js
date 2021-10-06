@@ -81,7 +81,7 @@ leftIcon={<FontAwesome name="search" size={24} color="black" />}/>
 </View>
 
 <Image style={styles.carouselImage}     
-source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/01/AirPods.jpg' }} />
+source={{ uri: 'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/Xiaomi/Events/Jupiter/Phase1/BrandStore/Redmi_9.jpg' }} />
 
 {modal ?
     <View style={styles.homeContainer}>

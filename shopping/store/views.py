@@ -95,10 +95,11 @@ def get_reviews(req):
 
 def get_user(req):
   if req.method == "GET":
-    id = req.GET.get('id')
-    user = get_object_or_404(User, pk=id)
-    data = serializers.serialize("json", user)
-    return HttpResponse(data, content_type='application/json')
+    token = req.GET.get("token") 
+    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User, email=decoded["email"])
+    data = { "uid": user.pk, "name": user.username, "email": decoded["email"] }
+    return JsonResponse(data)
 
 @csrf_exempt
 @verify_token

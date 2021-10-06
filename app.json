@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "uber-clone",
-    "slug": "uber-clone",
+    "name": "imall",
+    "slug": "imall",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/app.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,10 +21,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/app.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.uber.app"
+      "package": "com.imall.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

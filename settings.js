@@ -33,21 +33,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const { height, width } = Dimensions.get('window');
 
 export default function Settings({ navigation }) {
-  const [query, setQuery] = useState('');
+  const [ modal, setModal] = useState(false);
   const [ user, setUser ] = useState("")
   const [{ base_url }, dispatch] = useContext(state);
 
 const fetchUser = async () => {
   const token = await AsyncStorage.getItem("token")
-    const res = await fetch(`https://api.code-awesome.xyz/get-user?token=${token}`);
+    const res = await fetch(`${base_url}/get-user?token=${token}`);
     const data = await res.json();
-    setUser(data.message);
-    ToastAndroid.show('cart', 2000);
-  };
-
+    setUser(data.name);
+    setModal(true)
+    }
+  
   const logout = async () => {
     const token = await AsyncStorage.removeItem('token');
-    ToastAndroid.show('Logged out', 2000);
+ ToastAndroid.show('Logged out', 2000);
     navigation.navigate('Signup');
   };
   useLayoutEffect(() => {
@@ -66,6 +66,10 @@ const fetchUser = async () => {
       },
     });
   }, [navigation]);
+  
+  useEffect(()=>{
+   fetchUser()
+ },[])
   return (
    <ScrollView>
        <View style={{ flexDirection: 'row' }}>
@@ -76,7 +80,7 @@ const fetchUser = async () => {
               'http://images.unsplash.com/photo-1503341504253-dff4815485f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60',
           }}
         />
-        <Text style={styles.settingsUserTxt}> Username </Text>
+        <Text style={styles.settingsUserTxt}> {modal ? <Text>{user}</Text> : <Text></Text>}</Text>
       </View>
       <View style={styles.settingsContainer}>
         <ListItem>
@@ -102,7 +106,7 @@ const fetchUser = async () => {
               <ListItem.Subtitle>
                 Any queries, ask at our commnunity
               </ListItem.Subtitle>
-            </ListItem.Content>
+           </ListItem.Content>
           </LinearGradient>
         </ListItem>
       </View>

@@ -7,16 +7,16 @@ import { state } from './state.js'
 
 export default function Signup({ navigation }){
 
-	useLayoutEffect(()=>{
-		navigation.setOptions({
-			headerStyle: { 
-				backgroundColor: '#222',
+useLayoutEffect(()=>{
+	navigation.setOptions({
+		headerStyle: {
+		backgroundColor: '#222',
 			},
-			headerLeft: ()=>{ return(
+	headerLeft: ()=>{ return(
       <Text style={{ color: "#222" }}>H</Text> )},
-			headerTitleStyle: {
-				textAlign: 'center',
-				color: 'white'
+		headerTitleStyle: {
+		textAlign: 'center',
+		color: 'white'
 			}
 		})
 	}, [navigation])
@@ -29,8 +29,8 @@ const [ { base_url, token }, dispatch ] = useContext(state)
   
 
 const signup = ()=>{
-  const form = new FormData()
-  form.append("username", username)
+ const form = new FormData()
+ form.append("username", username)
   form.append("email",email) 
   form.append("password", password) 
   fetch(`${base_url}/signup`, { method: "POST",
@@ -38,20 +38,21 @@ const signup = ()=>{
   .then((res) =>{ return res.json() })
   .then((data) =>{ 
   ToastAndroid.show(data.message, 2000)
-  if  (data.message === "signup successful"){
+  if(data.message === "signup successful"){
   ToastAndroid.show(data.message,2000)
-  navigation.navigate("Login")
+  navigation.replace("Login")
   }else if(data.message === "email already exists"){ 
   ToastAndroid.show(data.message, 2000)
   } else {
   ToastAndroid.show("something went wrong, try again", 2000)
   }
   })
+ .catch(err => ToastAndroid.show("an error occurred",2000))
 }
 
 return(
 		<LinearGradient colors={['#222', '#222', '#000']} 
-		style={styles.signupContainer} >
+	style={styles.signupContainer} >
 <View>
 		<Text style={styles.signupHeading}> Sign up </Text>
 <TextInput 

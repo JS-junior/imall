@@ -22,7 +22,6 @@ import { Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export default function Product({ navigation, route }) {
 
 const { id } = route.params
@@ -45,6 +44,7 @@ useLayoutEffect(()=>{
 			})
 	}, [navigation])
 	
+
 const fetchProduct = async () => {
   const token = await AsyncStorage.getItem("token")
     const res = await fetch(`${base_url}/id?id=${id}`);
@@ -56,13 +56,17 @@ const fetchProduct = async () => {
     const cat_items = await fetch(`${base_url}/category?cat=${data[0].fields.category}`);
     const cat_data = await cat_items.json();
     setProducts(cat_data);
-    setModal(true)
-    console.log("los",data[0].fields.category)
+    
+    const useRes = await fetch(`${base_url}/get-user?token=${token}`);
+    const userData = await useRes.json();
+    setUser(userData.name);
+    setModal(true)  
+   
  };
   useEffect(() =>   {
     fetchProduct()
   }, []);
- 
+
 
   const addReview = async () => {
    const token = await AsyncStorage.getItem("token")
@@ -124,7 +128,7 @@ const fetchProduct = async () => {
   const [reviews, setReviews] = useState([]);
   const [query, setQuery] = useState('');
   const [modal, setModal] = useState(false);
-  
+  const [ user, setUser ] = useState(0)
   
   return (
     <SafeAreaView style={styles.container}>
@@ -211,19 +215,21 @@ const fetchProduct = async () => {
                       </Text>
 
                       {item.fields.review}
-                    </Text>
+                   </Text>
+  {user === item.fields.user ?
                     <MaterialIcons
                       name="delete"
                       size={24}
                       color="black"
                       onPress={() => deleteReview(item.pk)}
-                    />
+                    /> : <Text></Text>} 
                   </ListItem.Content>
                 </ListItem>
               );
             }}
           />
-          <TextInput
+     
+         <TextInput
             placeholder="write something"
             value={review}
             style={styles.normalInput}

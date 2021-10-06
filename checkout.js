@@ -194,15 +194,6 @@ export default function Checkout({ navigation,route }) {
             )}
           </Text>
         </Text>
-
-        <Text style={{ color: 'gray' }}>
-          expectd delivery on
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
-            
-            Friday, 18 September
-          </Text>
-        </Text>
-
        
         <View style={styles.paymentContainer}>
           <View style={styles.paymentInput}>

@@ -23,7 +23,7 @@ const { height, width } = Dimensions.get('window');
 
 
 export default function Orders({ navigation }) {
-  const [{ base_url }, dispatch ] = useContext(state)
+const [{ base_url }, dispatch ]= useContext(state)
   useLayoutEffect(()=>{
   navigation.setOptions({
    title: "Orders",
@@ -90,9 +90,10 @@ source={{  uri: item.image }}/>
 {item.product}
 </ListItem.Title>
 <ListItem.Subtitle>
-{item.status}
+{item.status} 
+{item.status === "refunded" ? <Text></Text> :
 <TouchableOpacity style={styles.refundBtn} onPress={()=> refund(item.id)}>
-<Text style={{ fontWeight: "bold", color:"#FFF", textAlign: 'center'}}>Refund</Text></TouchableOpacity>
+<Text style={{ fontWeight: "bold", color:"#FFF", textAlign: 'center'}}>Refund</Text></TouchableOpacity>}
 </ListItem.Subtitle>
 </ListItem.Content>     
 </ListItem>

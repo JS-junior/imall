@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext, useLayoutEffect } from 
 import styles from './styles.js';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, View, TouchableOpacity, ActivityIndicator, FlatList, TextInput, TouchableWithoutFeedback, ToastAndroid, Alert, StyleSheet, Dimensions, StatusBar, Keyboard } from 'react-native';
-import { state } from './state.js'
+import { state, actionTypes } from './state.js'
 import { Input } from 'react-native-elements';
 import RNModal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,14 +46,14 @@ const login = async ()=>{
   if(data.token){
   const token = await AsyncStorage.setItem("token", data.token)
   ToastAndroid.show("login sucessful",2000)
-  navigation.navigate("Home")
+  navigation.replace("Home")
   } else {
  ToastAndroid.toast("server error", 2000)
 }
 }
 
 return(
- 	<LinearGradient colors={['#222', '#222', '#000']} style={styles.signupContainer}>{!modal ? <Text></Text> : 
+ <LinearGradient colors={['#222', '#222', '#000']} style={styles.signupContainer}>{!modal ? <Text></Text> : 
   <View>
   <RNModal isVisible={modal} 
   animationIn="zoomIn" animationOut="zoomOut">
