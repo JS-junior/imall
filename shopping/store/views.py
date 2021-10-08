@@ -304,7 +304,7 @@ def refund(req):
     orders = Order.objects.filter(pk=id)
     prices = []
     for order in orders:
-      order.update(status="refunded")
+      Order.objects.filter(id=order.id).update(status="refunded")
       prices.append(order.total)
       intent_id = order.intent_id
     total = sum(prices)

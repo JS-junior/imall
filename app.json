@@ -17,14 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.paymall.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/app.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.imall.app"
+      "package": "com.paymall.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
