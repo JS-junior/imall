@@ -1,4 +1,5 @@
 from django.urls import  path, include
+from django.contrib.auth import views as auth_views 
 from django.conf.urls import url
 from . import views
 
@@ -22,5 +23,7 @@ urlpatterns = [
   path("success-cart", views.success_cart, name="SUCCESS-CART"),
   path("refund", views.refund, name="REFUND"),
   path("search", views.search, name="SEARCH"),
-  path("success-redirect", views.success_redirect, name="SUC_RED")
+  path("success-redirect", views.success_redirect, name="SUC_RED"),
+ path('forgotpass/<token>', views.forgotpass, name="FORGOT_PASSWORD"),
+ path('resetpass/<token>', views.resetpass, name="RESET-PASSWORD")
   ] 

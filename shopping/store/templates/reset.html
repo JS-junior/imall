@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Forgot password 🔑</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+ <h1> Forgot your password ? 🔑 </h1>
+      <img src="https://image.freepik.com/free-vector/hacker-breaking-lock-get-access-personal-information-computer-isometric_1284-63723.jpg" alt="img" class="forgotpass_pic" />
+    <div>
+      <p>Don't worry we have got you covered, 
+      </p>
+    </div>
+    <form class="reset-form" action="http://localhost:8000{% url 'RESET-PASSWORD' token %}" method="POST">{% csrf_token %}
+     <div class="shape"></div>
+     <input class="reset-input" type="text" name="password" placeholder="new password" />
+    <input class="reset-input" type="text" name="cpass" placeholder="confirm password" />
+    <div class="shape"></div>
+    <button type="submit" class="reset-btn">Reset</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Forgot password 🔑</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+ <h1> Forgot your password ? 🔑 </h1>
+      <img src="https://image.freepik.com/free-vector/hacker-breaking-lock-get-access-personal-information-computer-isometric_1284-63723.jpg" alt="img" class="forgotpass_pic" />
+    <div>
+      <p>Don't worry we have got you covered, 
+      click on the link to <a href="http://localhost:8000{% url 'FORGOT_PASSWORD' token %}">Continue</a>
+      </p>
+    </div>
+</body>
+</html>

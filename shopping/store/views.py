@@ -6,9 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
 from functools import wraps
+from django.template.loader import get_template
 from .models import Product, Cart, Order, Review
 from django.core import serializers
-from django.forms.models import model_to_dict
+from django.template import Context
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 import datetime
 import stripe
 import jwt
@@ -57,9 +60,13 @@ def login(req):
       username = req.POST["username"]
       password = req.POST["password"]
       email = req.POST["email"]
-      if User.objects.filter(email=email).exists():
-        token = jwt.encode({"email": email}, settings.SECRET_KEY, algorithm="HS256")
-        return JsonResponse({ "token": token })
+      user = auth.authenticate(username=username,password=password)
+      if user is not None:
+        if User.objects.filter(email=email).exists():
+          token = jwt.encode({"email": email}, settings.SECRET_KEY, algorithm="HS256")
+          return JsonResponse({ "token": token })
+        else:
+          return JsonResponse({ "message": "email not found"})
       else:
         return JsonResponse({ "message": "email not found"})
     except Exception as e:
@@ -95,8 +102,8 @@ def get_reviews(req):
 
 def get_user(req):
   if req.method == "GET":
-    token = req.GET.get("token") 
-    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+    token = req.GET.get("token")
+    decoded = jwt.decode(token,settings.SECRET_KEY, algorithms=["HS256"])
     user = get_object_or_404(User, email=decoded["email"])
     data = { "uid": user.pk, "name": user.username, "email": decoded["email"] }
     return JsonResponse(data)
@@ -229,10 +236,9 @@ def order_cart(req):
         cancel_url= base_url + "/error")
     subject = "RN eshop receipt"
     message = "You have ordered a package 📦 "  + " \n amount: " + str(total) + "\n quantity: " + str(quantity)
-    sender = "arnabgogoi83@gmail.com"
     receiver = []
     receiver.append(decoded["email"])
-    #send_mail(subject,message,sender,receiver,fail_silently = False)
+    EmailMessage(subject,message,to=receiver).send()
     return JsonResponse({ "url": session.url, "message": "ordered"})
     
 @csrf_exempt
@@ -265,10 +271,9 @@ def buy_now(req):
         cancel_url= base_url + "/error")
     subject = "RN eshop receipt"
     message = "You have ordered " + str(order.product.name) + " of rupees " + str(total)
-    sender = "arnabgogoi83@gmail.com"
     receiver = []
     receiver.append(decoded["email"])
-   # send_mail(subject,message,sender,receiver,fail_silently = False)
+    EmailMessage(subject,message,to=receiver).send()
     return JsonResponse({ "url": session.url, "message": "ordered" })
     
 
@@ -310,3 +315,36 @@ def refund(req):
     total = sum(prices)
     stripe.Refund.create(amount=total,payment_intent=intent_id)
     return JsonResponse({ 'message': 'refunded' })
+
+
+@csrf_exempt
+def forgotpass(req,token):
+  if req.method == "GET":
+    return render(req, "reset.html", { 'token': token })
+  if req.method == "POST":
+    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms = ["HS256"])
+    if User.objects.filter(email=decoded["email"]).exists():
+      subject = "Forgot password?"
+      message = "Forgot your password"
+      receiver = []
+      receiver.append(decoded["email"])
+      html_content = render_to_string('forgotpass.html', {'token': token })
+      email = EmailMultiAlternatives(subject,message,settings.EMAIL_HOST_USER, receiver)
+      email.attach_alternative(html_content, "text/html")
+      email.send()
+      return JsonResponse({"message": "check your mail"})
+   
+
+def resetpass(req,token):
+  if req.method == "POST":
+    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms = ["HS256"])
+    passwd = req.POST["password"]
+    cpass = req.POST["cpass"]
+    if passwd == cpass:
+      user = get_object_or_404(User, email=decoded["email"])
+      user.set_password(cpass)
+      user.save()
+      return JsonResponse({ "message": "password changed" })
+    
+    
+    
