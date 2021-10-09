@@ -12,7 +12,7 @@
 
 
 ## Demo
-### Android apk
+### Android app
 https://github.com/JS-junior/ecommerce/releases/download/App/imall.apk
 
 ## Expo snack
