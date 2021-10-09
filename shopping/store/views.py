@@ -318,22 +318,25 @@ def refund(req):
 
 
 @csrf_exempt
-def forgotpass(req,token):
+def forgotpass(req):
   if req.method == "GET":
     return render(req, "reset.html", { 'token': token })
   if req.method == "POST":
-    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms = ["HS256"])
-    if User.objects.filter(email=decoded["email"]).exists():
+    if User.objects.filter(email=req.POST["email"]).exists():
       subject = "Forgot password?"
       message = "Forgot your password"
       receiver = []
-      receiver.append(decoded["email"])
+      receiver.append(req.POST["email"])
+      token = jwt.encode({"email": req.POST["email"] }, settings.SECRET_KEY, algorithm="HS256")
       html_content = render_to_string('forgotpass.html', {'token': token })
       email = EmailMultiAlternatives(subject,message,settings.EMAIL_HOST_USER, receiver)
       email.attach_alternative(html_content, "text/html")
       email.send()
       return JsonResponse({"message": "check your mail"})
-   
+ 
+def forgotView(req,token):
+  if req.method == "GET":
+    return render(req, "reset.html", { 'token': token })  
 
 def resetpass(req,token):
   if req.method == "POST":

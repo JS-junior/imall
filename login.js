@@ -15,9 +15,17 @@ const [query, setQuery] = useState('')
 const [ modal, setModal ] = useState(false)
 const [ { base_url, token }, dispatch ] = useContext(state)
   
-  const forgotpass = ()=>{
+  const forgotpass = async()=>{
+  const form = new FormData()
+  form.append("email", email)
+  const res = await fetch(`${base_url}/forgotpass`, { method: "POST", body: form })
+  const data = await res.json()
+  if(data.message === "check your mail"){
   setModal(false)
   ToastAndroid.show("Check your mail", 4000)
+  } else {
+ ToastAndroid.toast("server error", 2000)
+}
   }
 
 useLayoutEffect(()=>{
@@ -63,7 +71,7 @@ return(
  <Text style={{ color: 'gray'  }}>
  type your registered email, we will send you a email for verification and you can the reset your password. Your verification session expires after 10 minutes.    
 <Text style={{ color: "blue" }}>  Learn more</Text></Text>
-<Input placeholder="email" placeholderTextColor="#808e9b" value={query} style={styles.normalInput} onChangeText={(text)=> setQuery(text)} />
+<Input placeholder="email" placeholderTextColor="#808e9b" value={email} style={styles.normalInput} onChangeText={(text)=> setEmail(text)} />
  <View style={{ flexDirection: "row", justifyContent: "center" }}>
  <TouchableOpacity style={styles.forgotpassbtn} 
  onPress={()=> setModal(false)}>

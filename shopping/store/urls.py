@@ -24,6 +24,7 @@ urlpatterns = [
   path("refund", views.refund, name="REFUND"),
   path("search", views.search, name="SEARCH"),
   path("success-redirect", views.success_redirect, name="SUC_RED"),
- path('forgotpass/<token>', views.forgotpass, name="FORGOT_PASSWORD"),
+  path("forgotpass", views.forgotpass, name="FORGOTPASS"),
+ path('forgotpass/<token>', views.forgotView, name="FORGOT_PASSWORD"),
  path('resetpass/<token>', views.resetpass, name="RESET-PASSWORD")
   ] 
