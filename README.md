@@ -15,6 +15,9 @@
 ### Android app
 https://github.com/JS-junior/ecommerce/releases/download/App/imall.apk
 
+### play store
+https://play.google.com/store/apps/details?id=com.paymall.app
+
 ## Expo snack
 https://snack.expo.dev/@little_champ/ecommerce
 
