@@ -93,14 +93,14 @@ leftIcon={<FontAwesome name="search" size={24} color="black" />}
                         {item.desc}
                       </ListItem.Subtitle>
                       <Text style={{ fontWeight: 'bold' }}>
-                       £ {item.discount}
+                       ₹{item.discount}
                        <Text
                           style={{
                             textDecoration: 'line-through',
                             color: 'gray',
                           }}>
                           
-                        £ {item.price}
+                        ₹{item.price}
                        </Text>
                       </Text>
                     </ListItem.Content>

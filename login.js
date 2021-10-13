@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, useContext, useLayoutEffect } from 'react'
 import styles from './styles.js';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, View, TouchableOpacity, ActivityIndicator, FlatList, TextInput, TouchableWithoutFeedback, ToastAndroid, Alert, StyleSheet, Dimensions, StatusBar, Keyboard } from 'react-native';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import { Text, Platform, View, TouchableOpacity, ActivityIndicator, FlatList, TextInput, TouchableWithoutFeedback, ToastAndroid, Alert, StyleSheet, Dimensions, StatusBar, Keyboard } from 'react-native';
 import { state, actionTypes } from './state.js'
-import { Input } from 'react-native-elements';
+import { Input, Icon } from 'react-native-elements';
 import RNModal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Facebook from 'expo-facebook'
+import * as Google from 'expo-google-app-auth';
 
 export default function Login({ navigation }){
 const [ username, setUsername ] = useState("")
@@ -26,6 +30,7 @@ const [ { base_url, token }, dispatch ] = useContext(state)
   } else {
  ToastAndroid.toast("server error", 2000)
 }
+  
   }
 
 useLayoutEffect(()=>{
@@ -33,7 +38,7 @@ navigation.setOptions({
 	headerStyle:{
 	backgroundColor: '#222',
 },
-headerLeft: ()=>{ return(
+headerLeft:()=>{ return(
   <Text style={{ color: "#222"}}>H</Text> )},
 headerTitleStyle: {
 	textAlign: 'center',
@@ -43,7 +48,6 @@ headerTitleStyle: {
 }, [navigation])
 	
 const login = async ()=>{
-  
   const form = new FormData()
   form.append("username", username)
   form.append("password", password)
@@ -60,16 +64,79 @@ const login = async ()=>{
 }
 }
 
+const googleLogin = async()=>{
+try {
+    const result = await Google.logInAsync({
+      androidStandaloneAppClientId:"",
+      scopes: ['profile', 'email'],
+    });
+
+    if (result.type === 'success') {
+      let userInfo = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+   headers: { Authorization: `Bearer ${result.accessToken}` },
+  })
+  const res = await userInfo.json()
+  console.log(res)
+  setUsername(res.name);
+  setEmail(res.email);
+  setPassword(res.name);
+  login();
+    } else {
+      ToastAndroid.show("Google signup cancelled", 2000)
+    }
+  } catch (e) {
+    ToastAndroid.show("Google signup error", 2000)
+  }
+}
+
+const FBLogin = async ()=> {
+console.log('clicked')
+  try {
+    await Facebook.initializeAsync({
+      appId: '',
+    });
+    const {
+      type,
+      token,
+      expirationDate,
+      permissions,
+      declinedPermissions,
+    } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile', 'email'],
+    });
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?fields=email,name&access_token=${token}`);
+      const user = await response.json()
+      console.log(token, user)
+      function unicodeToChar(text) {
+   return text.replace(/\\u[\dA-F]{4}/gi, 
+          function (match) {
+               return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+          });
+}
+      setUsername(user.name);
+      setEmail(unicodeToChar(user.email));
+      setPassword(user.name)
+      login()
+    } else {
+      // type === 'cancel'
+    }
+  } catch ({ message }) {
+    Alert.alert(`Facebook Login Error: ${message}`);
+  }
+}
+
 return(
  <LinearGradient colors={['#222', '#222', '#000']} style={styles.signupContainer}>{!modal ? <Text></Text> : 
-  <View>
-  <RNModal isVisible={modal} 
-  animationIn="zoomIn" animationOut="zoomOut">
+ <View>
+ <RNModal isVisible={modal} 
+ animationIn="zoomIn" animationOut="zoomOut">
  <View style={styles.forgotpassModal}>
  <Text style={{ fontWeight: "bold" }}>
   Forgot your password ? </Text>
  <Text style={{ color: 'gray'  }}>
- type your registered email, we will send you a email for verification and you can the reset your password. Your verification session expires after 10 minutes.    
+type your registered email, we will send you a email for verification and you can the reset your password. Your verification session expires after 10 minutes.    
 <Text style={{ color: "blue" }}>  Learn more</Text></Text>
 <Input placeholder="email" placeholderTextColor="#808e9b" value={email} style={styles.normalInput} onChangeText={(text)=> setEmail(text)} />
  <View style={{ flexDirection: "row", justifyContent: "center" }}>
@@ -117,6 +184,22 @@ autoCorrect={true}
 <Text style={styles.signupHeading}> Forgot password? </Text>
 </TouchableWithoutFeedback>
 </Text>
+<View style={styles.loginWithBar}>
+          <TouchableOpacity onPress={googleLogin} style={styles.iconButton}>
+            <Icon name='google' type='font-awesome' size={30} color='#808e9b' />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={FBLogin} style={styles.iconButton}>
+            <Icon
+              name='facebook-square'
+             type='font-awesome'
+              size={30}
+             color='#808e9b'
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Icon name='apple' type='font-awesome' size={30} color='#808e9b' />
+          </TouchableOpacity>
+        </View>
 </View>
 </View>
 </LinearGradient>

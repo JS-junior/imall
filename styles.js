@@ -296,7 +296,8 @@ backgroundColor: "#000",
 marginLeft: 30,
 width: 90,
 height: 20,
-textAlign: 'center'
+textAlign: 'center',
+color: "#FFF"
 },        
 historyCard: {
      height: height / 6,
@@ -409,8 +410,18 @@ normalInput: {
 		fontSize: 16,
 		color: '#808e9b'
 	},
-
-
+loginWithBar: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 50,
+  },
+iconButton: {
+    backgroundColor: '#333',
+    padding: 14,
+    marginHorizontal: 10,
+    borderRadius: 100,
+  },
 forgotpassbtn: {
 backgroundColor: "black",
 paddingHorizontal: 10,
@@ -424,5 +435,17 @@ shadowOpacity: 0.25,
 shadowRadius: 3.85,
 elevation: 2,
 marginLeft: 10
-}
+},
+ratingContainer: {
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 30,
+  },
+  
+  starImage: {
+    width: 40,
+    height: 40,
+    resizeMode: 'cover',
+  },
 })

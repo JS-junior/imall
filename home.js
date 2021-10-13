@@ -54,7 +54,7 @@ export default function Home({ navigation }) {
   }, [])
   
   useLayoutEffect(()=>{
-  navigation.setOptions({ title: "Paymall",
+  navigation.setOptions({ title: "iMall",
 headerStyle: { backgroundColor: '#FFF',},
 	headerLeft: ()=>{ return(
       <Feather name="menu" size={24} color="black" 

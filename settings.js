@@ -13,12 +13,16 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Dimensions,
+  Switch,
   StyleSheet,
   TextInput,
+  Platform,
   Image,
   ToastAndroid,
   ScrollView,
 } from 'react-native';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Icon, ListItem, Avatar, Button, Input } from 'react-native-elements';
 import { state } from './state.js';
@@ -35,7 +39,52 @@ const { height, width } = Dimensions.get('window');
 export default function Settings({ navigation }) {
   const [ modal, setModal] = useState(false);
   const [ user, setUser ] = useState("")
+  const [ turn, setTurn ] = useState(true)
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
   const [{ base_url }, dispatch] = useContext(state);
+  
+  Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+  async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
+
 
 const fetchUser = async () => {
   const token = await AsyncStorage.getItem("token")
@@ -44,6 +93,30 @@ const fetchUser = async () => {
     setUser(data.name);
     setModal(true)
     }
+    
+  const notify = async()=>{
+  setTurn((prev)=> !prev);
+  const token = await AsyncStorage.getItem("token")
+  registerForPushNotificationsAsync().then((pushToken) =>{ setExpoPushToken(pushToken)
+  })
+  if(!turn){
+    const nextForm = new FormData()
+  nextForm.append("push-token", expoPushToken)
+  const generatePushToken = await fetch(`${base_url}/add-push-token?token=${token}`, { method: "POST", body: nextForm })
+  const response = await generatePushToken.json()
+  if(response.message === "added push"){
+    ToastAndroid.show("Notifications turned on", 2000)
+  } else {
+    ToastAndroid.show("An error occurred", 2000)
+  }
+  } else {
+ const res = await fetch(`${base_url}/add-push-token?push-token=${expoPushToken}&token=${token}`)
+ const data = await res.json()
+ ToastAndroid.show(data.message, 2000)
+  }
+    }
+  
+  
   
   const logout = async () => {
     const token = await AsyncStorage.removeItem('token');
@@ -144,10 +217,11 @@ const fetchUser = async () => {
             style={styles.settingsCard}
             colors={['#FF9800', '#F44336']}>
             <ListItem.Content>
-              <ListItem.Title> Total Expenses </ListItem.Title>
+              <ListItem.Title> Notifications </ListItem.Title>
               <ListItem.Subtitle>
-               
-                cost of all purchases till now, $100
+              <Text>
+        Don't miss out great deals by turning on notifications {modal ?
+        <Switch rackcolor={{ false: "#767775", true: "#81b0ff" }} thumbColor={turn ? "#fff" : "#f4f3f4"} value={turn} onValueChange={notify} />: <Text></Text>}</Text>
               </ListItem.Subtitle>
             </ListItem.Content>
           </LinearGradient>

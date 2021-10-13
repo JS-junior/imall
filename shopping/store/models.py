@@ -76,3 +76,12 @@ class Order(models.Model):
   
   def __str__(self):
       return "%s %s %s %s %s %s %s %s %s %s %s %s" % (self.id,self.status,self.quantity,self.timestamp,self.user,self.product,self.location,self.state,self.country,self.type,self.total,self.intent_id)
+
+class Notification(models.Model):
+  id = models.AutoField(primary_key=True)
+  token = models.CharField(max_length=250)
+  turned = models.BooleanField()
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  
+  def __str__(self):
+    return "%s %s %s" % (self.id, self.token, self.turned, self.user)

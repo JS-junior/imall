@@ -23,12 +23,21 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/app.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        
       },
-      "package": "com.paymall.app"
+      "package": "com.paymall.app",
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn":{
+          "certificateHash": "",
+          "apiKey": ""
+        },
+        
+      }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
   }
-}

@@ -99,7 +99,7 @@ source={{  uri: item.image }}/>
 </ListItem>
 <View style={styles.orderContainer}>
 <TouchableOpacity style={{ borderRadius: 10, backgroundColor: "#ffffff50" }}>
-<Text style={{ color: "gray" }}>${item.price}</Text>
+<Text style={{ color: "gray" }}>₹{item.price}</Text>
 </TouchableOpacity>
 <TouchableOpacity style={{  borderRadius: 10, backgroundColor: "#ffffff50" }}>
 <Text style={{ color: "gray" }}>{item.location}{item.state}{item.country}</Text>

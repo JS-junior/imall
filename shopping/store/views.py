@@ -7,10 +7,19 @@ from django.core.mail import send_mail
 from django.conf import settings
 from functools import wraps
 from django.template.loader import get_template
-from .models import Product, Cart, Order, Review
+from .models import Product, Cart, Order, Review, Notification
 from django.core import serializers
 from django.template import Context
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
+from exponent_server_sdk import (
+    DeviceNotRegisteredError,
+    PushClient,
+    PushMessage,
+    PushServerError,
+    PushTicketError,
+)
+from requests.exceptions import ConnectionError, HTTPError
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 import datetime
 import stripe
@@ -19,6 +28,35 @@ import json
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 base_url = settings.BASE_URL
+
+
+def send_push_message(token, message, extra=None):
+  try:
+    response = PushClient().publish(PushMessage(to=token,body=message,data=extra))
+  except PushServerError as exc:
+    # Encountered some likely formatting/validation error.
+    rollbar.report_exc_info(extra_data={'token': token,'message': message,'extra': extra,'errors': exc.errors,'response_data': exc.response_data })
+    raise
+  except (ConnectionError, HTTPError) as exc:
+    # Encountered some Connection or HTTP error - retry a few times in
+    # case it is transient.
+    rollbar.report_exc_info(extra_data={'token': token, 'message': message, 'extra': extra})
+    raise self.retry(exc=exc)
+  try:
+      # We got a response back, but we don't know whether it's an error yet.
+      # This call raises errors so we can handle them with normal exception
+      # flows.
+    response.validate_response()
+  except DeviceNotRegisteredError:
+      # Mark the push token as inactive
+    from notifications.models import PushToken
+    PushToken.objects.filter(token=token).update(active=False)
+  except PushTicketError as exc:
+        # Encountered some other per-notification error.
+    rollbar.report_exc_info(
+    extra_data={'token': token,'message': message,'extra':extra,'push_response': exc.push_response._asdict()})
+    raise self.retry(exc=exc)
+    
 
 def verify_token(f):
   @wraps(f)
@@ -349,5 +387,34 @@ def resetpass(req,token):
       user.save()
       return JsonResponse({ "message": "password changed" })
     
+@csrf_exempt
+def notify(req):
+  if req.method == "POST":
+    message = req.POST["message"]
+    notifications = Notification.objects.all()
+    for notification in notifications:
+      send_push_message(notification.token,message)
     
+    return JsonResponse({ "message": "push notifications sended" })
+    
+@csrf_exempt    
+@verify_token
+def add_push_token(req):
+  if req.method == "GET":
+    push_token = req.GET.get("push-token")
+    token = req.GET.get("token")
+    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User, email=decoded["email"])
+    Notification.objects.filter(token=push_token).delete()
+    return JsonResponse({ "message":"notification turned off"})
+      
+  if req.method == "POST":
+    token = req.GET.get("token") 
+    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User, email=decoded["email"])
+    push_token = req.POST["push-token"]
+    notification = Notification.objects.create(user=user,token=push_token,turned=False)
+    notification.save()
+    print ("done!")
+    return JsonResponse({ "message": "added push" })
     

@@ -95,6 +95,7 @@ export default function Checkout({ navigation,route }) {
   };
 
   const order = async () => {
+  setPayed(true)
    const token = await AsyncStorage.getItem("token")
     if (id === 0) {
       
@@ -154,7 +155,7 @@ export default function Checkout({ navigation,route }) {
     <View>
       
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <Image
+         <Image
             style={{ width: 50, height: 50, borderRadius: 100 }}
             source={{
               uri:
@@ -176,9 +177,9 @@ export default function Checkout({ navigation,route }) {
           Total amount:
           <Text style={{ fontWeight: 'bold', color: 'black' }}>
             {product === null ? (
-              <Text>{cart.total}</Text>
+              <Text>₹{cart.total}</Text>
             ) : (
-              <Text> {product.fields.price}</Text>
+              <Text> ₹{product.fields.price}</Text>
             )}
           </Text>
         </Text>
@@ -216,7 +217,7 @@ export default function Checkout({ navigation,route }) {
           </View>
           <View style={styles.paymentInput}>
             <Icon color="#333" name="user" type="font-awesome" size={20} />
-            <TextInput
+           <TextInput
               style={{ flex: 1, paddingHorizontal: 12 }}
               value={state}
               onChangeText={(text) => setState(text)}
@@ -231,10 +232,10 @@ export default function Checkout({ navigation,route }) {
               onChangeText={(text) => setCountry(text)}
               placeholder={'country'}
             />
-         </View>
+         </View>{payed ? <ActivityIndicator color="#000" size="large" /> :
           <TouchableOpacity onPress={order} style={styles.payBtn}>
             <Text style={styles.payBtnTxt}> Pay </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
       
     </View>

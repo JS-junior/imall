@@ -30,7 +30,7 @@ const [{ base_url }, dispatch] = useContext(state)
 
 useLayoutEffect(()=>{
 	navigation.setOptions({
-	 title: "Paymall",
+	 title: "iMall",
 	 headerStyle: { 
 	backgroundColor: '#FFF',
 			},
@@ -54,8 +54,8 @@ const fetchProduct = async () => {
     const Revdata = await reviewRes.json();
     setReviews(Revdata);
     const cat_items = await fetch(`${base_url}/category?cat=${data[0].fields.category}`);
-    const cat_data = await cat_items.json();
-    setProducts(cat_data);
+   const cat_data = await cat_items.json();
+  setProducts(cat_data);
     
     const useRes = await fetch(`${base_url}/get-user?token=${token}`);
     const userData = await useRes.json();
@@ -71,8 +71,8 @@ const fetchProduct = async () => {
   const addReview = async () => {
    const token = await AsyncStorage.getItem("token")
     const form = new FormData();
-    form.append('pid', product.pk);
-    form.append('rating', 5);
+   form.append('pid', product.pk);
+    form.append('rating', rating);
     form.append('review', review);
     const res = await fetch(`${base_url}/add-review?token=${token}`, {
       method: 'POST',
@@ -91,6 +91,7 @@ const fetchProduct = async () => {
     const token = await AsyncStorage.getItem("token")
     const form = new FormData();
     form.append('pid', product.pk);
+    form.append('rating', rating)
     const res = await fetch(`${base_url}/add-to-cart?token=${token}`, {
       method: 'POST',
       body: form,
@@ -105,11 +106,11 @@ const fetchProduct = async () => {
   };
 
   const deleteReview = async (pid) => {
-    const token = await AsyncStorage.getItem("token")
+   const token = await AsyncStorage.getItem("token")
     const form = new FormData();
     form.append('pid', pid);
     const res = await fetch(`${base_url}/delete-review?token=${token}`, {
-      method: 'POST',
+     method: 'POST',
       body: form,
     });
     const data = await res.json();
@@ -121,6 +122,10 @@ const fetchProduct = async () => {
     fetchProduct();
   };
 
+const star = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png';
+
+    //Empty Star. You can also give the path from local
+   const star_With_Border = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
 
   const [review, setReview] = useState('');
   const [product, setProduct] = useState({});
@@ -129,7 +134,8 @@ const fetchProduct = async () => {
   const [query, setQuery] = useState('');
   const [modal, setModal] = useState(false);
   const [ user, setUser ] = useState(0)
-  
+  const [ rating, setRating ] = useState(0)
+  const maxRating = [1,2,3,4,5]
   return (
     <SafeAreaView style={styles.container}>
       {modal ? 
@@ -139,7 +145,7 @@ const fetchProduct = async () => {
             style={styles.productImage}
           />
           <Text style={styles.productTitle}> {product.fields.name}</Text>
-          <Text style={styles.productTitle}> {product.fields.price}</Text>
+          <Text style={styles.productTitle}>₹{product.fields.price}</Text>
           <View style={styles.productbtnContainer}>
             <TouchableOpacity onPress={addToCart} style={styles.addToCartBtn}>
               <Text style={styles.addTocartText}> add to cart </Text>
@@ -186,7 +192,7 @@ const fetchProduct = async () => {
                           justifyContent: 'space-between',
                           alignItems: 'center',
                         }}>
-                        <Text>{item.fields.price} </Text>
+                        <Text>₹{item.fields.price} </Text>
                       </View>
                     </TouchableOpacity>
                   </ListItem.Content>
@@ -213,8 +219,17 @@ const fetchProduct = async () => {
                         {item.fields.user}
                         {'\n'}
                       </Text>
-
-                      {item.fields.review}
+                      <FlatList 
+          data={maxRating}
+          style={styles.ratingContainer}
+          renderItem={({val,index})=>{
+          return(
+          <View>
+        <Image style={styles.starImage} source={ index <= item.fields.rating ? { uri: star } : { uri: star_With_Border }} />
+          </View>
+          )}}
+          /> {'\n'}
+                  {item.fields.review}
                    </Text>
   {user === item.fields.user ?
                     <MaterialIcons
@@ -228,8 +243,22 @@ const fetchProduct = async () => {
               );
             }}
           />
+       <View style={{ marginVertical: 10, flexDirection: 'row'}}>
+          <FlatList 
+          data={maxRating}
+          horizontal={true}
+          renderItem={({val,index})=>{
+          return(
+          <View>
+          <TouchableOpacity activeOpacity={0.7} onPress={()=> setRating(index)}>
+          <Image style={styles.starImage} source={ index <= rating ? { uri: star } : { uri: star_With_Border }} />
+          </TouchableOpacity>
+          </View>
+          )}}
+      />
+          </View>
      
-         <TextInput
+        <TextInput
             placeholder="write something"
             value={review}
             style={styles.normalInput}

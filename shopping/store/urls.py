@@ -26,5 +26,7 @@ urlpatterns = [
   path("success-redirect", views.success_redirect, name="SUC_RED"),
   path("forgotpass", views.forgotpass, name="FORGOTPASS"),
  path('forgotpass/<token>', views.forgotView, name="FORGOT_PASSWORD"),
- path('resetpass/<token>', views.resetpass, name="RESET-PASSWORD")
+ path('resetpass/<token>', views.resetpass, name="RESET-PASSWORD"),
+ path('add-push-token',views.add_push_token, name="PUSH-TOKEN"),
+ path('notification', views.notify, name="PUSH-NOTIFICATION")
   ] 

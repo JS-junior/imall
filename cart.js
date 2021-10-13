@@ -22,7 +22,7 @@ const { height, width } = Dimensions.get('window');
 export default function Cart({ navigation }) {
   
   useLayoutEffect(()=>{
-	navigation.setOptions({
+	navigation.setOptions({ 
 	headerStyle: { 
 	backgroundColor: '#333',
 	},
@@ -87,19 +87,19 @@ return(
 style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
 <Avatar rounded source={{ uri: item.image }} />
 <Text>{item.name}</Text><Text>{item.seller}</Text>
-<Text>{item.price}</Text>
+<Text>₹{item.price}</Text>
 <MaterialIcons name="delete" onPress={()=> deleteCart(item.id)} size={24} color="black" /></View>
 )}} />}
 <View 
 style={styles.subTotalContainer}>
 <Text> Subtotal</Text>
-{!modal ? <ActivityIndicator color="#000" size="large" /> : <Text>{cart.total} </Text>}</View>
+{!modal ? <ActivityIndicator color="#000" size="large" /> : <Text>₹{cart.total} </Text>}</View>
 <View style={styles.subTotalContainer}>
 <Text style={{ fontWeight: 'bold' }}> Shipping</Text>
 <Text> free</Text>
 </View>
 <View style={styles.subTotalContainer}>
-<Text style={{ fontWeight: 'bold' }}> total</Text>{!modal ? <ActivityIndicator color="#000" size="large" /> : <Text>{cart.total} </Text>}</View>
+<Text style={{ fontWeight: 'bold' }}> total</Text>{!modal ? <ActivityIndicator color="#000" size="large" /> : <Text>₹{cart.total} </Text>}</View>
 {cart.quantity === 0 ? <Text></Text> :<TouchableOpacity onPress={()=> navigation.navigate("Checkout", {id : 0 })}>
 <Text style={styles.checkoutButton}> Proceed to Checkout</Text>
 </TouchableOpacity>}
