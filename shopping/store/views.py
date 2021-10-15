@@ -12,13 +12,7 @@ from django.core import serializers
 from django.template import Context
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
-from exponent_server_sdk import (
-    DeviceNotRegisteredError,
-    PushClient,
-    PushMessage,
-    PushServerError,
-    PushTicketError,
-)
+from pyfcm import FCMNotification
 from requests.exceptions import ConnectionError, HTTPError
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 import datetime
@@ -386,15 +380,24 @@ def resetpass(req,token):
       user.set_password(cpass)
       user.save()
       return JsonResponse({ "message": "password changed" })
-    
+  
 @csrf_exempt
+@verify_token
 def notify(req):
   if req.method == "POST":
     message = req.POST["message"]
     notifications = Notification.objects.all()
     for notification in notifications:
-      send_push_message(notification.token,message)
-    
+      push_service = FCMNotification(api_key=settings.FCM_SERVER_TOKEN)
+
+      registration_id = notification.token
+
+      message_title = "iMall"
+      message_body = "Laptops are 90% off,hurry now! don't miss it"
+
+      result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title, message_body=message_body)
+
+      print(result)
     return JsonResponse({ "message": "push notifications sended" })
     
 @csrf_exempt    
@@ -417,4 +420,7 @@ def add_push_token(req):
     notification.save()
     print ("done!")
     return JsonResponse({ "message": "added push" })
+    
+
+
     

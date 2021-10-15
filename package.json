@@ -36,7 +36,8 @@
     "react-native-screens": "^3.4.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.6.2",
-    "redux": "^4.1.0"
+    "redux": "^4.1.0",
+    "rn-placeholder": "^3.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

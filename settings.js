@@ -67,8 +67,9 @@ export default function Settings({ navigation }) {
       alert('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    token = (await Notifications.getDevicePushTokenAsync()).data;
     console.log(token);
+    ToastAndroid.show(`${token}`,2000)
   } else {
     alert('Must use physical device for Push Notifications');
   }
