@@ -1,6 +1,8 @@
 # iMall
 
-## An E-commerce app for Android and iOS
+## An E-commerce app for Android and iOS 
+[![ios](https://d1wp6m56sqw74a.cloudfront.net/~assets/7aedcf75e5a7f182ee3344ffc107daa4)](https://katherinempeterson.com/)
+
 
 ## Made with React Native and Django
 
