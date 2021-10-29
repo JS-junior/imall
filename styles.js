@@ -448,4 +448,37 @@ ratingContainer: {
     height: 40,
     resizeMode: 'cover',
   },
+  
+  postsView: { paddingHorizontal: 10, marginTop: 10 },
+  postView: {
+    paddingVertical: 10,
+    marginTop: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#1e1e1e',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    elevation: 8,
+  },
+  postHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  postStatsOpacity: {
+    backgroundColor: '#fff',
+    padding: 8,
+    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  userProfileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 100,
+  },
 })

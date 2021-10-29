@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   FlatList,
   TouchableWithoutFeedback,
+  Linking,
   Dimensions,
   Switch,
   StyleSheet,
@@ -164,7 +165,7 @@ const fetchUser = async () => {
             <ListItem.Content>
               <ListItem.Title> Invite Friends </ListItem.Title>
               <ListItem.Subtitle>
-                share this app among your friends
+                <Text onPress={()=> Linking.openURL("https://play.google.com/store/apps/details?id=com.paymall.app")}> share this app among your friends</Text>
               </ListItem.Subtitle>
             </ListItem.Content>
           </LinearGradient>
@@ -178,7 +179,7 @@ const fetchUser = async () => {
             <ListItem.Content>
               <ListItem.Title> Help and Support</ListItem.Title>
               <ListItem.Subtitle>
-                Any queries, ask at our commnunity
+              <Text onPress={()=> navigation.navigate("Forms")}> Please Read our term and conditions page for more details.</Text>
               </ListItem.Subtitle>
            </ListItem.Content>
           </LinearGradient>
@@ -191,8 +192,8 @@ const fetchUser = async () => {
             colors={['#FF9800', '#F44336']}>
             <ListItem.Content>
               <ListItem.Title> Terms and conditions </ListItem.Title>
-              <ListItem.Subtitle>
-                Please Read our term and conditions page for more details.
+              <ListItem.Subtitle>                             
+              <Text onPress={()=> Linking.openURL("https://imall.flycricket.io/privacy.html")}>Any queries, ask at our commnunity</Text>
               </ListItem.Subtitle>
             </ListItem.Content>
           </LinearGradient>

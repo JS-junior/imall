@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { CardField, useStripe } from '@stripe/stripe-react-native';
 import{  WebView } from 'react-native-webview'
 
 import {

@@ -16,24 +16,13 @@ import Payment from './payment.js'
 import Orders from './orders.js'
 import Checkout from './checkout.js'
 import Loading from './loading.js';
+import Forms from './forms.js'
+import Comment from './comments.js'
 import StateProvider, { state as context } from './state.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
 const Stack = createStackNavigator()
-
-const fetchToken = async () => {
-   const token = await AsyncStorage.getItem('token');
-    if (token) {
-      navigation.replace('Home');
-    } else {
-     navigation.replace('Login');
-   }
-  };
-  
-  useEffect(() => {
-    fetchToken();
-  }, []);
 
   return (
     <StateProvider>
@@ -42,11 +31,14 @@ const fetchToken = async () => {
 <Stack.Screen name="Loading" options={{headerShown: false}} component={Loading} />
  <Stack.Screen name="Home" component={Home} />
 <Stack.Screen name="Product" component={Product} />
-<Stack.Screen name="Payment" component={Payment} /><Stack.Screen name="Checkout" component={Checkout} />
+<Stack.Screen name="Payment" component={Payment} />
+<Stack.Screen name="Checkout" component={Checkout} />
 <Stack.Screen name="Cart" component={Cart} />
 <Stack.Screen name="Orders" component={Orders} />
 <Stack.Screen name="Search" component={Search} />
 <Stack.Screen name="Settings" component={Settings} />
+<Stack.Screen name="Forms" component={Forms} />
+<Stack.Screen name="Comment" component={Comment} />
  <Stack.Screen name="Login" component={Login} />
  <Stack.Screen name="Signup" component={Signup} />
           </Stack.Navigator>

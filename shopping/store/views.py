@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from functools import wraps
 from django.template.loader import get_template
-from .models import Product, Cart, Order, Review, Notification
+from .models import Product, Cart, Order, Review, Notification, Post, Comment
 from django.core import serializers
 from django.template import Context
 from django.core.exceptions import ObjectDoesNotExist
@@ -22,35 +22,6 @@ import json
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 base_url = settings.BASE_URL
-
-
-def send_push_message(token, message, extra=None):
-  try:
-    response = PushClient().publish(PushMessage(to=token,body=message,data=extra))
-  except PushServerError as exc:
-    # Encountered some likely formatting/validation error.
-    rollbar.report_exc_info(extra_data={'token': token,'message': message,'extra': extra,'errors': exc.errors,'response_data': exc.response_data })
-    raise
-  except (ConnectionError, HTTPError) as exc:
-    # Encountered some Connection or HTTP error - retry a few times in
-    # case it is transient.
-    rollbar.report_exc_info(extra_data={'token': token, 'message': message, 'extra': extra})
-    raise self.retry(exc=exc)
-  try:
-      # We got a response back, but we don't know whether it's an error yet.
-      # This call raises errors so we can handle them with normal exception
-      # flows.
-    response.validate_response()
-  except DeviceNotRegisteredError:
-      # Mark the push token as inactive
-    from notifications.models import PushToken
-    PushToken.objects.filter(token=token).update(active=False)
-  except PushTicketError as exc:
-        # Encountered some other per-notification error.
-    rollbar.report_exc_info(
-    extra_data={'token': token,'message': message,'extra':extra,'push_response': exc.push_response._asdict()})
-    raise self.retry(exc=exc)
-    
 
 def verify_token(f):
   @wraps(f)
@@ -186,7 +157,7 @@ def get_cart(req):
     carts = Cart.objects.filter(user=user)
     data = []
     for cart in carts:
-      data.append({ "id": cart.id,"price": cart.product.price, "name": cart.product.name, "image": cart.product.image, "seller": cart.product.seller.username })
+      data.append({ "id": cart.id,"price": cart.product.price, "name": cart.product.name, "image": cart.product.image, "seller": cart.product.seller.username, "pid": cart.product.id })
     return JsonResponse({ "message": data })
     
 @csrf_exempt
@@ -422,5 +393,94 @@ def add_push_token(req):
     return JsonResponse({ "message": "added push" })
     
 
+@csrf_exempt
+@verify_token
+def post(req):
+  if req.method == "GET":
+    posts = Post.objects.all()
+    data = []
+    for post in posts:
+      likes = []
+      for user in post.likes.all():
+        likes.append(user.id)
+      data.append({ "id": post.id, "title": post.title, "desc": post.desc, "username": post.user.username, "likes": likes, "isAdmin": post.isAdmin, "timestamp": post.timestamp })
+    return JsonResponse({ "message": data })
+    
+  elif req.method == "POST":
+    isAdmin = req.POST["isAdmin"]
+    title = req.POST["title"]
+    desc = req.POST["desc"]
+    token = req.GET.get("token")
+    uid = jwt.decode(token,settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User,email=uid["email"])
+    model = Post.objects.create(title=title,desc=desc,user=user,isAdmin=isAdmin)
+    model.save()
+    return JsonResponse({ "message": "posted successfully" })
 
+@csrf_exempt
+@verify_token
+def delete_post(req):
+  if req.method == "POST":
+    id = req.POST["id"]
+    object = get_object_or_404(Post,pk=id)
+    object.delete()
+    return JsonResponse({ "message": "deleted successfully" })
+    
+    
+@csrf_exempt
+@verify_token
+def comment(req):
+  if req.method == "GET":
+    data = []
+    id = req.GET.get('id')
+    post = get_object_or_404(Post, pk=id)
+    comments = Comment.objects.filter(post=post)
+    for comment in comments:
+      data.append({ "comment": comment.comment, "id": comment.id, "user": comment.user.username, "timestamp": comment.timestamp, "isAdmin": comment.isAdmin })
+    return JsonResponse({ 'message': data, 'title': post.title, "desc": post.desc, "timestamp": post.timestamp, "postId": post.id, "username": post.user.username })
+    
+  elif req.method == "POST":
+    isAdmin = req.POST["isAdmin"]
+    comment = req.POST["comment"]
+    pid = req.POST['postId']
+    token = req.GET.get("token")
+    uid = jwt.decode(token,settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User,email=uid["email"])
+    post = get_object_or_404(Post,pk=pid)
+    model = Comment.objects.create(comment=comment,post=post,user=user,isAdmin=isAdmin)
+    model.save()
+    return JsonResponse({ "message": "commented successfully" })
+    
+    
+@csrf_exempt
+@verify_token
+def delete_comment(req):
+  if req.method == "POST":
+    id = req.POST["id"]
+    object = get_object_or_404(Comment,pk=id)
+    object.delete()
+    return JsonResponse({ "message": "deleted successfully" })
+
+@csrf_exempt
+@verify_token
+def likes(req):
+  if req.method == "GET":
+    postId = req.GET.get('id')
+    token = req.GET.get("token")
+    uid = jwt.decode(token,settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User,email=uid["email"])
+    post = get_object_or_404(Post, id=postId)
+    post.likes.remove(user)
+    post.save()
+    return JsonResponse({ "message": "unliked successfully" })
+    
+  elif req.method == 'POST':
+    postId = req.POST["id"]
+    token = req.GET.get("token")
+    uid = jwt.decode(token,settings.SECRET_KEY, algorithms=["HS256"])
+    user = get_object_or_404(User,email=uid["email"])
+    post = get_object_or_404(Post, id=postId)
+    post.likes.add(user)
+    post.save()
+    return JsonResponse({ "message": "liked successfully" })
     

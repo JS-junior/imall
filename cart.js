@@ -83,12 +83,32 @@ style={{flex: 1, flexDirection: "column" }}
 data={products}
 renderItem={({item})=>{ 
 return( 
+<ListItem.Swipeable
+  leftContent={
+    <Button
+      onPress={()=> navigation.navigate("Product", { id: item.pid })}
+      title="Info"
+      icon={{ name: 'info', color: 'white' }}
+      buttonStyle={{ minHeight: '100%' }}
+    />
+  }
+  rightContent={
+    <Button
+      title="Delete"
+      icon={{ name: 'delete', color: 'white' }}
+      onPress={()=> deleteCart(item.id)}
+      buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+    />
+  }
+>
 <View 
 style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
 <Avatar rounded source={{ uri: item.image }} />
 <Text>{item.name}</Text><Text>{item.seller}</Text>
 <Text>₹{item.price}</Text>
-<MaterialIcons name="delete" onPress={()=> deleteCart(item.id)} size={24} color="black" /></View>
+<MaterialIcons name="delete" onPress={()=> deleteCart(item.id)} size={24} color="black" />
+</View>
+</ListItem.Swipeable>
 )}} />}
 <View 
 style={styles.subTotalContainer}>

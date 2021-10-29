@@ -28,5 +28,10 @@ urlpatterns = [
  path('forgotpass/<token>', views.forgotView, name="FORGOT_PASSWORD"),
  path('resetpass/<token>', views.resetpass, name="RESET-PASSWORD"),
  path('add-push-token',views.add_push_token, name="PUSH-TOKEN"),
- path('notification', views.notify, name="PUSH-NOTIFICATION")
+ path('notification', views.notify, name="PUSH-NOTIFICATION"),
+ path('post', views.post, name="POST"),
+ path('comment', views.comment, name="COMMENT"),
+ path('likes', views.likes, name="LIKES"),
+ path('delete-post', views.delete_post, name="DELETE-POST"),
+ path('delete-comment', views.delete_comment, name="DELETE-COMMENT")
   ] 
