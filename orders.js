@@ -75,7 +75,7 @@ fetchOrders()
   }
   }
   return (
-<ScrollView style={styles.container}>{!modal ? <ActivityIndicator color="#000" size="large" /> :
+<ScrollView style={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>{!modal ? <ActivityIndicator color="#000" size="large" /> :
 <View style={styles.historyContainer}>
 <FlatList
 data={items}

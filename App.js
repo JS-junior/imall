@@ -12,7 +12,6 @@ import Login from "./login.js";
 import Cart from './cart.js';
 import Search from './search.js';
 import Settings from './settings.js' 
-import Payment from './payment.js'
 import Orders from './orders.js'
 import Checkout from './checkout.js'
 import Loading from './loading.js';
@@ -29,7 +28,6 @@ const Stack = createStackNavigator()
 <Stack.Screen name="Loading" options={{headerShown: false}} component={Loading} />
  <Stack.Screen name="Home" component={Home} />
 <Stack.Screen name="Product" component={Product} />
-<Stack.Screen name="Payment" component={Payment} />
 <Stack.Screen name="Checkout" component={Checkout} />
 <Stack.Screen name="Cart" component={Cart} />
 <Stack.Screen name="Orders" component={Orders} />

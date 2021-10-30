@@ -72,7 +72,7 @@ useEffect(()=>{
     fetchCart()
     },[])
   return (
-<View>
+<View style={styles.container}>
 <View style={styles.cartContainer}>
 <View style={styles.scrollViewContainer}><ScrollView showsVerticalScrollIndicator={false}>
 <Icon name='shopping-cart' type='font-awesome-5' />

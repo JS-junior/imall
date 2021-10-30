@@ -62,12 +62,13 @@ export default function Search({ navigation }) {
   };
  
 return (
-<ScrollView>
+ <View style={styles.contaier}>
 <Input placeholder="search" value={query}
 onChangeText={(text) => {setQuery(text); fetchProducts();  }}
 leftIcon={<FontAwesome name="search" size={24} color="black" />}
  />
- <View style={styles.searchContainer}>
+ <View style={styles.scrollViewContainer}>
+ <ScrollView showsVerticalScrollIndicator={false}>
         {!query ? 
           <View></View>
         : 
@@ -111,7 +112,8 @@ leftIcon={<FontAwesome name="search" size={24} color="black" />}
             }}
           />
 }
-</View>
 </ScrollView>
+</View>
+</View>
   );
 }

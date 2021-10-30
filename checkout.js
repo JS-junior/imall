@@ -37,7 +37,7 @@ import {
   MaterialIcons,
   FontAwesome,
 } from '@expo/vector-icons';
-
+import Payment from './payment.js'
 const { height, width } = Dimensions.get('window');
 
 export default function Checkout({ navigation,route }) {
@@ -51,12 +51,13 @@ export default function Checkout({ navigation,route }) {
       },
       title: 'Checkout',
       headerTitleStyle: {
-        textAlign: 'center',
         color: '#000',
       },
     });
   }, [navigation]);
-
+  
+  const [ url, setUrl ] = useState("")
+  const [ payScreen, setPayScreen ] = useState(false)
   const [confirm, setConfirm] = useState(false);
   const [payed, setPayed] = useState(false);
   const [phNum, setPhNum] = useState(0);
@@ -113,7 +114,8 @@ export default function Checkout({ navigation,route }) {
       const data = await res.json();
       if (data.message === 'ordered') {
         ToastAndroid.show('ordered', 2000);
-       navigation.navigate("Payment",{ url: data.url })
+        setUrl(data.url)
+        setPayScreen(true)
       } else {
         ToastAndroid.show('server error', 2000);
       }
@@ -132,8 +134,9 @@ export default function Checkout({ navigation,route }) {
       });
       const data = await res.json();
       if (data.message === 'ordered') {
-        ToastAndroid.show('ordered', 2000);
-        navigation.navigate("Payment",{ url: data.url })
+        setUrl(data.url)
+        setPayScreen(true)
+        ToastAndroid.show('ordered', 2000)
       } else {
         ToastAndroid.show('server error', 2000);
       }
@@ -150,10 +153,10 @@ export default function Checkout({ navigation,route }) {
   ToastAndroid.show(id.toString(),2000)
     }
   }, []);
-
-  return (
-    <View>
-      
+  
+  const Gateway = ()=>{
+    return (
+      <>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
          <Image
             style={{ width: 50, height: 50, borderRadius: 100 }}
@@ -173,19 +176,11 @@ export default function Checkout({ navigation,route }) {
           </Text>
         </View>
 
-        <Text style={{ color: 'gray' }}>
-          Total amount:
-          <Text style={{ fontWeight: 'bold', color: 'black' }}>
-            {product === null ? (
-              <Text>₹{cart.total}</Text>
-            ) : (
-              <Text> ₹{product.fields.price}</Text>
-            )}
-          </Text>
+<Text style={{ color: 'gray' }}> Total amount <Text style={{ fontWeight: 'bold', color:'black' }}>  {product === null ? (  <Text>₹{cart.total}</Text>  ) : ( <Text> ₹{product.fields.price}</Text> ) }  </Text>
         </Text>
 
         <Text style={{ color: 'gray' }}>
-          Quantity:
+          Quantity
           <Text style={{ fontWeight: 'bold', color: 'black' }}>
            
             {product === null ? (
@@ -237,7 +232,13 @@ export default function Checkout({ navigation,route }) {
             <Text style={styles.payBtnTxt}> Pay </Text>
           </TouchableOpacity>}
         </View>
-      
+      </>
+      )
+  }
+
+  return (
+    <View style={{ width: width, height: height, flex: 1 }}>
+      {payScreen ? <Payment url={url} done={()=> navigation.navigate("Orders")} /> : <Gateway />}
     </View>
   );
 }

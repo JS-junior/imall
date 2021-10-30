@@ -30,11 +30,7 @@ import {
 
 const { height, width } = Dimensions.get('window');
 
-export default function Payment({ navigation, route }) {
-
-  const { confirmPayment } = useStripe();
-  const { url } = route.params
-  
+export default function Payment({ url, done }) {
   
    const [payed, setPayed] = useState(false);
   const [products, setProducts ] = useState([])
@@ -44,26 +40,24 @@ const onLoadStart = (syntheticEvent) => {
     const { nativeEvent } = syntheticEvent;
     if (nativeEvent.url === "https://rn-shop-code.herokuapp.com/success-redirect") {
       ToastAndroid.show("done!", 2000)
-      navigation.navigate("Orders")
+      done()
     }
     if (nativeEvent.url === "https://rn-shop-code.herokuapp.com/cancel") {
       ToastAndroid.show("failed", 2000)
-      navigation.navigate("Orders")
+      done()
     }
   };
 
     
     return (
-    <View style={{ width: width, height: height, flex: 1 }}>
        <WebView onLoadStart={onLoadStart} onNavigationStateChange={ 
              (e) => { 
                if(e.url == "https://rn-shop-code.herokuapp.com/success-redirect") {
-               navigation.navigate("Orders")
+              done()
                }
            }
           } 
           source={{ uri: url }} />
-       </View>
     )
     }
 

@@ -314,6 +314,7 @@ historyCard: {
     height: height,
     width: width,
     display: 'flex',
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
