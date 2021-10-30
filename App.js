@@ -16,8 +16,6 @@ import Payment from './payment.js'
 import Orders from './orders.js'
 import Checkout from './checkout.js'
 import Loading from './loading.js';
-import Forms from './forms.js'
-import Comment from './comments.js'
 import StateProvider, { state as context } from './state.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -37,8 +35,6 @@ const Stack = createStackNavigator()
 <Stack.Screen name="Orders" component={Orders} />
 <Stack.Screen name="Search" component={Search} />
 <Stack.Screen name="Settings" component={Settings} />
-<Stack.Screen name="Forms" component={Forms} />
-<Stack.Screen name="Comment" component={Comment} />
  <Stack.Screen name="Login" component={Login} />
  <Stack.Screen name="Signup" component={Signup} />
           </Stack.Navigator>

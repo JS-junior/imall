@@ -179,7 +179,7 @@ const fetchUser = async () => {
             <ListItem.Content>
               <ListItem.Title> Help and Support</ListItem.Title>
               <ListItem.Subtitle>
-              <Text onPress={()=> navigation.navigate("Forms")}> Please Read our term and conditions page for more details.</Text>
+              <Text> Please Read our term and conditions page for more details.</Text>
               </ListItem.Subtitle>
            </ListItem.Content>
           </LinearGradient>
