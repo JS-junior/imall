@@ -17,10 +17,34 @@ import { state } from './state.js'
 import { Icon, ListItem, Avatar, Button, Input } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons, FontAwesome, Feather} from '@expo/vector-icons';
-
+import {
+  Placeholder,
+  PlaceholderMedia,
+  PlaceholderLine,
+  Fade,
+} from 'rn-placeholder';
 const { height, width } = Dimensions.get('window');
 
-
+function LoadingCard(){
+const [ data ] = useState([1,2,3,4,5,6])
+return (
+<FlatList data={data} renderItem={({item})=>{
+return (
+<Placeholder Animation={Fade} style={{ marginVertical: 10}}>
+    <View style={{ flexDirection: 'row' }}>
+      <View>
+        <PlaceholderMedia style={{ borderRadius: 100 }} size={90} />
+      </View>
+      <View style={{ flex: 1, marginLeft: 10, justifyContent: 'center' }}>
+        <PlaceholderLine width={80} />
+        <PlaceholderLine width={40} />
+        <PlaceholderLine width={60} />
+      </View>
+   </View>
+  </Placeholder>
+  )}} />
+)
+}
 
 export default function Orders({ navigation }) {
 const [{ base_url }, dispatch ]= useContext(state)
@@ -75,7 +99,7 @@ fetchOrders()
   }
   }
   return (
-<ScrollView style={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>{!modal ? <ActivityIndicator color="#000" size="large" /> :
+<ScrollView style={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>{!modal ? <LoadingCard /> :
 <View style={styles.historyContainer}>
 <FlatList
 data={items}

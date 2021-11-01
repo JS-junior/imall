@@ -13,14 +13,139 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import {
+  Placeholder,
+  PlaceholderMedia,
+  PlaceholderLine,
+  Fade
+} from "rn-placeholder";
+
+
 import { state } from './state.js'
 import { Icon, ListItem, Avatar, Button, Input } from 'react-native-elements';
 import { MaterialCommunityIcons, Feather, FontAwesome} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const { height, width } = Dimensions.get('window');
 
+function LoadingCard(){
+const [ dummy ] = useState([1,2,3,4,5,6])
+
+return(
+<Placeholder Animation={Fade} style={{ marginVertical: 10}}>
+<View style={styles.homeContainer}>
+<Text 
+style={styles.productMoreTxt}> Mobiles </Text>
+<View style={styles.homeBoxContainer}>
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10  }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10 }} />
+</View>
+</View>
+</View>
+
+<View style={styles.homeContainer}>
+<Text 
+style={styles.productMoreTxt}> gaming consoles </Text>
+<View style={styles.homeBoxContainer}>
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10  }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10 }} />
+</View>
+
+</View>
+</View>
+
+
+<View style={styles.homeContainer}>
+<Text 
+style={styles.productMoreTxt}> Laptops</Text>
+<View style={styles.homeBoxContainer}>
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10  }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10 }} />
+</View>
+
+</View>
+</View>
+
+
+
+
+<View style={styles.homeContainer}>
+<Text 
+style={styles.productMoreTxt}> pc accessories</Text>
+<View style={styles.homeBoxContainer}>
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10  }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10,marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10}} />
+</View>
+
+<View style={{ ...styles.boxContainer, marginVertical: 10 }}>
+<PlaceholderMedia size={170} style={{ marginVertical: 10, marginHorizontal: 10 }} />
+<PlaceholderLine width={110} style={{ marginVertical: 10 }} />
+</View>
+
+</View>
+</View>
+  </Placeholder>
+)
+}
+
 export default function Home({ navigation }) {
-  
   
   const [ query, setQuery ] = useState("")
   const [ lap, setLap ] = useState([])
@@ -43,13 +168,10 @@ export default function Home({ navigation }) {
     const gameres = await fetch(`${base_url}/category?cat=GC`);
     const gamedata = await gameres.json();
     setGame(gamedata);
-    ToastAndroid.show("hi", 2000)
     setModal(true)
   };
   
-  useEffect(async()=>{
-    const token = await AsyncStorage.getItem("token")
-      ToastAndroid.show("You are a logged in user", 2000)
+  useEffect(()=>{
       fetchProducts()
   }, [])
   
@@ -69,6 +191,8 @@ headerStyle: { backgroundColor: '#FFF',},
 			name='shopping-cart' type='font-awesome-5' />)}
 			})
 	}, [navigation])
+	
+	
 	
   return (
 <View style={{ flex: 1 }} >
@@ -181,7 +305,8 @@ style={styles.productMoreTxt}> Computer accessories </Text>
 <Text> {acs[2].fields.name} </Text></View>
 <View style={styles.boxContainer}><TouchableWithoutFeedback onPress={()=> navigation.navigate('Product', {id: acs[3].pk }) }><Image style={styles.boxContainerImage} source={{ uri: acs[3].fields.image  }} /></TouchableWithoutFeedback>
 <Text> {acs[3].fields.name} </Text></View></View>
-</View>: <ActivityIndicator size="large" color ="black" />} 
+</View>: <LoadingCard />} 
+
 </ScrollView>
 <View style={styles.bottomBar}><TouchableOpacity style={{ flex: 1 }} onPress={ ()=>navigation.navigate("Home")}><Icon name='home' size={30} />
  </TouchableOpacity>

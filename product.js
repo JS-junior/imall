@@ -17,7 +17,13 @@ import {
 import styles from './styles.js';
 import { state } from './state.js'
 import { ListItem, Avatar, Icon } from 'react-native-elements';
-import { FontAwesome, Feather, MaterialIcons} from '@expo/vector-icons';
+import { FontAwesome, Feather, MaterialIcons} from '@expo/vector-icons'
+import {
+  Placeholder,
+  PlaceholderMedia,
+  PlaceholderLine,
+  Fade,
+} from 'rn-placeholder';
 import { Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -136,6 +142,76 @@ const star = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master
   const [ user, setUser ] = useState(0)
   const [ rating, setRating ] = useState(0)
   const maxRating = [1,2,3,4,5]
+
+function LoadingCard(){
+const [ dummy ] = useState([1,2,3,4,5,6])
+
+return(
+<Placeholder Animation={Fade} style={{ marginVertical: 10}}>
+<ScrollView>
+   <View style={{ flexDirection: 'column' }}>
+     <View>
+      <PlaceholderMedia size={400} />
+     </View>
+     <View style={{ flex: 1, marginVertical: 10, marginLeft: 10, justifyContent: 'center' }}>
+       <PlaceholderLine width={40} />
+       <PlaceholderLine width={20} /> 
+    </View>
+ <View style={styles.productbtnContainer}>
+            <TouchableOpacity>
+             <Text style={styles.addTocartText}> add to cart </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buyBtn}>
+              <Text style={styles.buyBtn}> Buy </Text>
+            </TouchableOpacity>
+          </View>
+     
+    <View>
+
+<Text style={styles.productUpperCaption}> Product Description </Text>
+<View style={{ flex: 1,flexDirection: 'column',  justifyContent: 'space-between', alignItems: 'center' }}>
+<PlaceholderLine size={'50%'} />
+ <PlaceholderLine size={'50%'}  />
+ <PlaceholderLine size={'50%'} />
+  </View>
+   <Text style={styles.productUpperCaption}> More products </Text>
+ 
+  <FlatList data={dummy} horizontal={true} renderItem={({item})=>{ return(
+<ScrollView style={{ flexDirection: 'row'  }}>
+     
+   <Placeholder style={{ marginHorizontal: 10 }}>
+   <PlaceholderMedia size={90} style={{ marginVertical: 5}} /> 
+    </Placeholder>
+  <PlaceholderLine width={80} />
+  <PlaceholderLine width={80} />
+     
+   </ScrollView>)}} />
+     
+ <Text style={styles.productUpperCaption}> Reviews </Text>
+ 
+ <FlatList data={dummy} renderItem={({item})=>{
+return (
+<Placeholder Animation={Fade} style={{ marginVertical: 10}}>
+    <View style={{ flexDirection: 'row' }}>
+      <View>
+        <PlaceholderMedia style={{ borderRadius: 100 }} size={90} />
+      </View>
+      <View style={{ flex: 1, marginLeft: 10, justifyContent: 'center' }}>
+        <PlaceholderLine width={80} />
+        <PlaceholderLine width={40} />
+        <PlaceholderLine width={60} />
+      </View>
+   </View>
+  </Placeholder>
+  )}} />
+      </View>
+   </View>
+   </ScrollView>
+  </Placeholder>
+)
+}
+  
+  
   return (
     <SafeAreaView style={styles.container}>
       {modal ? 
@@ -269,7 +345,7 @@ const star = 'https://raw.githubusercontent.com/AboutReact/sampleresource/master
           </TouchableOpacity>
         </ScrollView>
        : 
-        <ActivityIndicator size="large" color="black" />
+        <LoadingCard />
       }
     </SafeAreaView> 
   );
