@@ -156,17 +156,7 @@ return(
      <View style={{ flex: 1, marginVertical: 10, marginLeft: 10, justifyContent: 'center' }}>
        <PlaceholderLine width={40} />
        <PlaceholderLine width={20} /> 
-    </View>
- <View style={styles.productbtnContainer}>
-            <TouchableOpacity>
-             <Text style={styles.addTocartText}> add to cart </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buyBtn}>
-              <Text style={styles.buyBtn}> Buy </Text>
-            </TouchableOpacity>
-          </View>
-     
-    <View>
+    </View><View>
 
 <Text style={styles.productUpperCaption}> Product Description </Text>
 <View style={{ flex: 1,flexDirection: 'column',  justifyContent: 'space-between', alignItems: 'center' }}>
@@ -217,11 +207,11 @@ return (
       {modal ? 
         <ScrollView>
           <Image
-            source={{ uri: product.fields.image }}
+           source={{ uri: product.fields.image }}
             style={styles.productImage}
           />
-          <Text style={styles.productTitle}> {product.fields.name}</Text>
-          <Text style={styles.productTitle}>₹{product.fields.price}</Text>
+          <Text selectable style={styles.productTitle}> {product.fields.name}</Text>
+          <Text selectable style={styles.productTitle}>₹{product.fields.price}</Text>
           <View style={styles.productbtnContainer}>
             <TouchableOpacity onPress={addToCart} style={styles.addToCartBtn}>
               <Text style={styles.addTocartText}> add to cart </Text>
@@ -231,7 +221,7 @@ return (
             </TouchableOpacity>
           </View>
           <Text style={styles.productUpperCaption}> Product Description </Text>
-          <Text
+          <Text selectable
             style={{
               fontFamily: 'MontserratRegular',
               backgroundColor: 'white',

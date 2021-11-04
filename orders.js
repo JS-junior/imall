@@ -17,6 +17,7 @@ import { state } from './state.js'
 import { Icon, ListItem, Avatar, Button, Input } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons, FontAwesome, Feather} from '@expo/vector-icons';
+import TimeAgo from 'react-native-timeago';
 import {
   Placeholder,
   PlaceholderMedia,
@@ -129,7 +130,7 @@ source={{  uri: item.image }}/>
 <Text style={{ color: "gray" }}>{item.location}{item.state}{item.country}</Text>
 </TouchableOpacity>
 <TouchableOpacity style={{  borderRadius: 10, backgroundColor: "#ffffff80" }}>
-<Text style={{ color: "#555" }}>{item.timestamp}</Text>
+<Text style={{ color: "#555" }}><TimeAgo time={item.timestamp} /></Text>
 </TouchableOpacity>
 </View>
 </View>

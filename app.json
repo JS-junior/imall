@@ -2,9 +2,10 @@
   "expo": {
     "name": "iMall",
     "slug": "imall",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "./assets/app.png",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/app.png",
       "resizeMode": "contain",
@@ -27,7 +28,7 @@
         
       },
       "package": "com.paymall.app",
-      "versionCode": 3,
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json",
       "config": { 
         "googleSignIn":{

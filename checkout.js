@@ -58,8 +58,10 @@ export default function Checkout({ navigation,route }) {
   
   const [ url, setUrl ] = useState("")
   const [ payScreen, setPayScreen ] = useState(false)
+  
+  const Gateway = ()=>{
+    
   const [confirm, setConfirm] = useState(false);
-  const [payed, setPayed] = useState(false);
   const [phNum, setPhNum] = useState(0);
   const [secret, setSecret] = useState('');
   const [location, setLocation] = useState('');
@@ -69,12 +71,8 @@ export default function Checkout({ navigation,route }) {
   const [cart, setCart] = useState({});
   const [date, setDate] = useState(0);
   const [month, setMonth] = useState('');
-  const { confirmPayment, loading } = useConfirmPayment();
-
-  
- 
-// const local_url = 'https://api.code-awesome.xyz';
- 
+  const { confirmPayment, loading } = useConfirmPayment()
+  const [payed, setPayed] = useState(false);
   const [modal, setModal] = useState(false);
   const [product, setProduct] = useState(null);
 
@@ -143,18 +141,15 @@ export default function Checkout({ navigation,route }) {
     }
   };
 
-  useEffect(() => {
+useEffect(() => {
     if (id === 0) {
-    
-      fetchCart();
+    fetchCart();
     } else {
-      
      fetchProduct();
-  ToastAndroid.show(id.toString(),2000)
     }
   }, []);
   
-  const Gateway = ()=>{
+    
     return (
       <>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
