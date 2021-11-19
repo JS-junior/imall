@@ -2,10 +2,7 @@
 
 ## An E-commerce app for Android and iOS 
 [![ios](https://d1wp6m56sqw74a.cloudfront.net/~assets/7aedcf75e5a7f182ee3344ffc107daa4)](https://katherinempeterson.com/)
-   <div> <iframe
-  src="https://appetize.io/embed/zfzuv47wfm4qfedudkdvmwggg8?device=iphone8"
-  width="378px" height="800px" frameborder="0" scrolling="no"></iframe></div>
-## Made with React Native and Django
+   ## Made with React Native and Django
 
 ## Tech Stack
 
