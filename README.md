@@ -36,8 +36,8 @@ https://snack.expo.dev/@little_champ/ecommerce
 Installation
 
 ```bash
-git clone https://github.com/JS-junior/ecommerce
-cd ecommerce
+git clone https://github.com/JS-junior/imall
+cd imall
 npm i
 cd shopping
 pip install -requirements.txt
